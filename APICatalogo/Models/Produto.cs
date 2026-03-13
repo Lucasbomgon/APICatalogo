@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -8,7 +8,9 @@ namespace APICatalogo.Models;
 [Table("Produtos")]
 public class Produto
 {
+    
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int ProdutoId { get; set; }
 
     [Required]  
