@@ -1,0 +1,24 @@
+using Microsoft.EntityFrameworkCore.Migrations;
+
+#nullable disable
+
+namespace APICatalogo.Migrations
+{
+    /// <inheritdoc />
+    public partial class PopulaCategorias : Migration
+    {
+        /// <inheritdoc />
+        protected override void Up(MigrationBuilder mb)
+        {
+            mb.Sql("insert into Categoria(Nome, ImagemUrl) Values('Bebidas', 'bebidas.jpg')");
+            mb.Sql("insert into Categoria(Nome, ImagemUrl) Values('Lanches', 'lanches.jpg')");
+            mb.Sql("insert into Categoria(Nome, ImagemUrl) Values('Sombremesas', 'sobremesas.jpg')");
+        }
+
+        /// <inheritdoc />
+        protected override void Down(MigrationBuilder mb)
+        {
+            mb.Sql("Delete From Categoria");
+        }
+    }
+}
