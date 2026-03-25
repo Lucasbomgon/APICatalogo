@@ -7,7 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace APICatalogo.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]")] // produtos
     [ApiController]
     public class ProdutosController : ControllerBase
     {
@@ -18,21 +18,18 @@ namespace APICatalogo.Controllers
             _context = context;
         }
 
+         // /produtos
         [HttpGet]
-        public ActionResult<IEnumerable<Produto>> Get()
+        public async Task<ActionResult<IEnumerable<Produto>>> Get()
         {
-            var produtos = _context.Produtos.ToList();
-            if (produtos is null)
-            {
-                return NotFound("Produtos nao encontrados...");
-            }
-            return produtos;
+            return await _context.Produtos.ToListAsync();
         }
-
+         
+        // /produtos/id
         [HttpGet("{id:int}", Name = "ObterProduto")]
-        public ActionResult<Produto> Get(int id)
+        public async Task<ActionResult<Produto>> Get(int id)
         {
-            var produto = _context.Produtos.FirstOrDefault(p => p.ProdutoId == id);
+            var produto = await _context.Produtos.FirstOrDefaultAsync(p => p.ProdutoId == id);
             if (produto is null)
             {
                 return NotFound("Produtos nao encontrados...");
@@ -40,6 +37,7 @@ namespace APICatalogo.Controllers
             return produto;
         }
 
+        // /produtos
         [HttpPost]
         public ActionResult Post(Produto produto)
         {

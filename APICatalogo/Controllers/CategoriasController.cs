@@ -16,27 +16,42 @@ namespace APICatalogo.Controllers
     {
         private readonly AppDbContext _context;
 
-        public CategoriasController(AppDbContext context) 
+        public CategoriasController(AppDbContext context)
         {
-            _context = context; 
+            _context = context;
         }
 
 
         [HttpGet]
         public ActionResult<IEnumerable<Categoria>> Get()
         {
-            return _context.Categorias.ToList();
+            try
+            {
+                return _context.Categorias.AsNoTracking().ToList();
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Ocorreu um erro ao tratar a sua solicitacao.");
+            }
         }
 
         [HttpGet("{id:int}", Name = "ObterCategoria")]
         public ActionResult<Categoria> Get(int id)
         {
-            var categoria = _context.Categorias.FirstOrDefault(c => c.CategoriaId == id);
-            if (categoria is null)
+           try
             {
-                return NotFound("Categoria nao encontrada...");
+                var categoria = _context.Categorias.FirstOrDefault(p => p.CategoriaId == id );
+                if (categoria == null)
+                {
+                    return NotFound($"Categoria id={id} nao encontrada...");
+                }
+                return Ok(categoria);
             }
-            return categoria;
+            catch(Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+            "Ocorreu um erro ao tratar a sua solicitacao.");
+            }
         }
 
         [HttpPost]
@@ -72,8 +87,8 @@ namespace APICatalogo.Controllers
         {
             var categoria = _context.Categorias.FirstOrDefault(c => c.CategoriaId == id);
 
-            if (categoria is null)
-                return NotFound("categoria nao localizada");
+            if (categoria == null)
+                return NotFound($"categoria id={id} nao localizada");
 
             _context.Categorias.Remove(categoria);
             _context.SaveChanges();
