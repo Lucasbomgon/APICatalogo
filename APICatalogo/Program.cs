@@ -1,5 +1,8 @@
 using APICatalogo.Context;
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using APICatalogo.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,8 +18,12 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddTransient<IMeuServico, MeuServico>();
 
 var app = builder.Build();
 
