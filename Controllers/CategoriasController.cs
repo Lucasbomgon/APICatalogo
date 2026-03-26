@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using APICatalogo.Services;
 
 
 namespace APICatalogo.Controllers
@@ -21,6 +22,12 @@ namespace APICatalogo.Controllers
             _context = context;
         }
 
+        [HttpGet("UsandoFromServices/{nome}")] 
+        public ActionResult<string> GetSaudacaoFromServices([FromServices] IMeuServico meuServico,
+                                                            string nome)
+        {
+            return meuServico.Saudadacao(nome);
+        }
 
         [HttpGet]
         public ActionResult<IEnumerable<Categoria>> Get()
