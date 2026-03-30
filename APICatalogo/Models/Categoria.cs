@@ -18,11 +18,12 @@ public class Categoria
     public int CategoriaId { get; set; }
 
     [Required]
-    [StringLength(80)]
+    [StringLength(80, ErrorMessage = "Voce precisa colocar um nome para a categoria")]
     public string? Nome { get; set; }
 
     [Required]
-    [StringLength(300)]
+    [StringLength(300, ErrorMessage = "A imagem deve ter no maximo {1} caracteres", 
+    MinimumLength = 10)]
     public string? ImagemUrl { get; set; }
 
     public ICollection<Produto> Produtos { get; set; } 
